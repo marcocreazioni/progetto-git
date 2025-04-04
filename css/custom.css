@@ -1,0 +1,4 @@
+/* Cambiamo il colore del testo dei paragrafi (tag html da cambiare, color è il parametro(colore del testo) è brown è il valore (il marrone) */
+p { color:brown;
+    
+}
