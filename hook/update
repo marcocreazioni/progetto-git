@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Recupera il riferimento da aggiornare
+ref=$1
+oldrev=$2
+newrev=$3
+
+# Se il riferimento è 'refs/heads/master' (il branch master)
+if [ "$ref" = "refs/heads/master" ]; then
+  # Controlla i messaggi di commit dei nuovi commit che vengono pushati
+  # Usa git log per ottenere i messaggi dei commit tra oldrev e newrev
+  commit_messages=$(git log $oldrev..$newrev --pretty=format:"%s")
+
+  # Cerca un identificatore di ticket (ad esempio un numero come 'JIRA-123')
+  if ! echo "$commit_messages" | grep -qE "JIRA-[0-9]+"; then
+    echo "Errore: Il commit non contiene un identificatore di ticket valido!"
+    echo "Assicurati che il messaggio del commit contenga un riferimento al ticket (es. JIRA-123)."
+    exit 1
+  fi
+fi
+
+# Se tutto è a posto, lascia passare il push
+exit 0
